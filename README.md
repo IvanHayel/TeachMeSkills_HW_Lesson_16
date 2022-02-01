@@ -16,7 +16,7 @@ line tags to another document.
 The file name for recording must consist of tag values and has the form:
 <firstName>_<lastName>_<title>.txt
 ```
-###Additionally
+### Additionally
 ```
 Additionally implement the following functionality:
 if the value 1 is entered in the properties file - parse the document using SAX
