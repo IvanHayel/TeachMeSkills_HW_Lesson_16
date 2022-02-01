@@ -15,8 +15,6 @@ It is necessary to parse the xml document and write the contents of the
 line tags to another document. 
 The file name for recording must consist of tag values and has the form:
 <firstName>_<lastName>_<title>.txt
-
-Task with *
 ```
 ###Additionally
 ```
