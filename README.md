@@ -22,6 +22,6 @@ Additionally implement the following functionality:
 if the value 1 is entered in the properties file - parse the document using SAX
 if the value 2 is entered in the properties file - parse the document using DOM
 ```
-### [solution]()
+### [solution](https://github.com/IvanHayel/TeachMeSkills_HW_Lesson_16/tree/master/com/teachmeskills/task)
 
 ---
