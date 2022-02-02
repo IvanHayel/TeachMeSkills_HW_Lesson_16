@@ -7,6 +7,7 @@ import com.teachmeskills.task.util.writer.SonnetWriter;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
@@ -26,34 +27,38 @@ public class Runner {
         analyzeXML();
     }
 
-    private static void loadProperties(){
-        try(FileInputStream propertiesFile = new FileInputStream(PROPERTY_PATH)) {
+    private static void loadProperties() {
+        try (FileInputStream propertiesFile = new FileInputStream(PROPERTY_PATH)) {
             PROPS.load(propertiesFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void analyzeXML(){
+    private static void analyzeXML() {
         String sonnetXMLPath = PROPS.getProperty("XMLpath");
-        switch(PROPS.getProperty("analyzer")){
+        if (Files.notExists(Paths.get(sonnetXMLPath))) {
+            LOG.log(Level.WARNING, () -> sonnetXMLPath + " file doesn't exist!");
+            return;
+        }
+        switch (PROPS.getProperty("analyzer")) {
             case "1" -> {
                 LOG.log(Level.INFO, "Parsing with SAX analyzer started ...");
                 Sonnet sonnet = SAX.parseSonnet(sonnetXMLPath);
                 LOG.log(Level.INFO, "Parsing with SAX analyzer successfully ended!");
-                writeSonnet(sonnet,PROPS.getProperty("TXTDirectorySAX"));
+                writeSonnet(sonnet, PROPS.getProperty("TXTDirectorySAX"));
             }
             case "2" -> {
                 LOG.log(Level.INFO, "Parsing with DOM analyzer started ...");
                 Sonnet sonnet = DOM.parseSonnet(sonnetXMLPath);
                 LOG.log(Level.INFO, "Parsing with DOM successfully ended!");
-                writeSonnet(sonnet,PROPS.getProperty("TXTDirectoryDOM"));
+                writeSonnet(sonnet, PROPS.getProperty("TXTDirectoryDOM"));
             }
             default -> LOG.log(Level.WARNING, "Check properties file! (analyzer = 1 or 2)");
         }
     }
 
-    private static void writeSonnet(Sonnet sonnet, String txtDirectory){
+    private static void writeSonnet(Sonnet sonnet, String txtDirectory) {
         LOG.log(Level.INFO, "Text file writing started ...");
         SonnetWriter sonnetWriter = new SonnetWriter(sonnet);
         Path dir = Paths.get(txtDirectory);
